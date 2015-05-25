@@ -10,6 +10,7 @@ module Codebreaker
 		end
 		def get_hint
 			@hint_used=true
+			@secret_code[0]+"xxx"
 		end
 
 		def submit_guess(guess)
@@ -24,14 +25,13 @@ module Codebreaker
 					respond.push("-") 
 				end
 			end
-
-			if @hint_used
-				respond[0]=s[0]
-			end 
 			@num_of_attempts-=1
 			respond.join
 		end
 
+		def has_attempts
+			@num_of_attempts>0
+		end
 
 		private
 		def generate_code
@@ -41,5 +41,6 @@ module Codebreaker
 			end
 			a.join
 		end
+		
 	end
 end
