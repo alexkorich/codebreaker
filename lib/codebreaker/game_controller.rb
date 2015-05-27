@@ -13,7 +13,7 @@ module Codebreaker
 				case a
 					when "n"
 						g=Game.new()
-						puts "You started a new game. \n Press h for hint, e to end game\nYou have #{g.state[:attempts]} attempts."
+						puts "You started a new game. \n Press h for hint, e to end game\nYou have #{g.attempts} attempts."
 						while true
 
 							b=gets.chomp
@@ -31,8 +31,8 @@ module Codebreaker
 									if gets.chomp == 's'
 										puts "Enter you name"
 										name=gets.chomp
-										puts "You used #{6 - g.state[:attempts]} #{g.state[:attempts]>5 ? 'attempts' : 'attempt'} and #{g.hint_used ? 'hint' : 'no hint'}\n\n"
-										result=[6 - g.state[:attempts], g.hint_used]
+										puts "You used #{6 - g.attempts} #{g.attempts>5 ? 'attempts' : 'attempt'} and #{g.hint_used ? 'hint' : 'no hint'}\n\n"
+										result=[6 - g.attempts, g.hint_used]
 										Game.save(name, result)
 										puts @default
 										break
@@ -54,8 +54,8 @@ module Codebreaker
 						end
 					end
 					when 'h'
-						puts highscore
-						puts "Press n to start a new game or q to quit"
+						highscore
+						puts "\nPress n to start a new game or q to quit"
 					when 'q'
 						puts "bye!"
 					break
@@ -67,7 +67,12 @@ module Codebreaker
 
 	
 		def highscore
-			Game.load_score
+			a=Game.load_score
+			puts "Name       |Attempts used |Hint used |"
+			puts a
+			a.each do |x|
+				puts "#{x[:name]}       | #{x[:result][0]}            | #{x[:result][1] == true ? 'yes' : 'no'} "
+			end
 		end
 	end
 end

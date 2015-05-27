@@ -1,12 +1,12 @@
 module Codebreaker
 	class Game
-		attr_reader :num_of_attempts, :hint_used, :state
+		attr_reader :attempts, :hint_used, :state
 
 		def initialize()
 			@hint_used = false
 			@hint=''
 			@secret_code = generate_code
-			@state={is_win: false, attempts: 6}
+			@attempts=6
 		end
 
 		def get_hint
@@ -22,6 +22,7 @@ module Codebreaker
 		def zzz
 			@secret_code
 		end
+		
 		def submit_guess(guess)
 			if has_attempts
 				if valid(guess)
@@ -39,7 +40,7 @@ module Codebreaker
 					g.each_index do |i|
 						if s.include?(g[i]) then respond.push("-")	end
 					end
-					@state[:attempts]-=1
+					@attempts-=1
 					respond.join
 					else "Please, enter 4-digits code with 1-6 numbers"
 					end
@@ -49,24 +50,23 @@ module Codebreaker
 		end
 
 		def has_attempts
-			@state[:attempts] > 0
+			@attempts > 0
 		end
 		def valid (code)
 			code.to_s.match(/^[1-6]{4}$/)
 		end
 		def self.save(name, result)
-			t={name: name, result: result}
+			t={name: name, result:result}
 			if File.exist?('codebreaker.score')
-				
 				a=Marshal.load(File.read('codebreaker.score'))
 				a<<t
-				File.open("codebreaker.score", 'w') {|f| f.write(Marshal.dump(a)) }
+				b=a.sort_by {|h| h[:result][0]}
+				File.open("codebreaker.score", 'w') {|f| f.write(Marshal.dump(b)) }
 			else
 				a=[]<<t
 				File.open("codebreaker.score", 'w') {|f| f.write(Marshal.dump(a)) }
 			end
 		end
-
 
 		def self.load_score
 			begin
