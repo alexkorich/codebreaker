@@ -1,6 +1,6 @@
 module Codebreaker
 	class Game
-		attr_reader :attempts, :hint_used, :state
+		attr_reader :attempts, :hint_used
 
 		def initialize()
 			@hint_used = false
