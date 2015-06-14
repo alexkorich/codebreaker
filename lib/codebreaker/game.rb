@@ -6,7 +6,7 @@ module Codebreaker
       @hint_used = false
       @hint=''
       @secret_code = generate_code
-      @attempts=6
+      @attempts=10
     end
 
     def get_hint
@@ -48,7 +48,7 @@ module Codebreaker
             end
           end
           @attempts-=1
-          respond.join
+          {result:respond.join,attempts_left: @attempts}
           else "Please, enter 4-digits code with 1-6 numbers"
           end
         else "You lose!"

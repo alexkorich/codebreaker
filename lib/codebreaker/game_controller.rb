@@ -65,7 +65,7 @@ module Codebreaker
     def highscore
       a=Game.load_score
       puts "Name       |Attempts used |Hint used |"
-      puts a
+      # puts a
       a.each do |x|
         puts "#{x[:name]}       | #{x[:result][0]}            | #{x[:result][1] == true ? 'yes' : 'no'} "
       end
